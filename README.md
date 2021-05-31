@@ -47,8 +47,6 @@ Og for testdatasættet:
 ## Brug af algoritmen
 
 ```python
-import torch
-
 from transformers import AutoTokenizer
 from model_def import ElectraClassifier
 model_checkpoint = 'Maltehb/-l-ctra-danish-electra-small-cased'
