@@ -9,7 +9,7 @@ Algoritmen er designet til at finde sproglige angreb i korte tesktstykker. Den e
 Algortimen er en binær klassifikationsalgortime der vurdere om et kort tekststykke er udtryk for et sprogligt angreb eller ej. Den helt korte definition af et sprogligt angreb er tekststykker der indeholder:
 *Stigmatiserende, nedsættende, krænkende, chikanerende og truende ytringer rettet mod personer eller grupper.*
 
-En udvidet definition af sproglige angreb og eksempler herpå kan findes (her)[definitioner.pdf].
+En udvidet definition af sproglige angreb og eksempler herpå kan findes i filen *definitioner.pdf*.
 
 ## Beskrivelse af algoritmen
 
