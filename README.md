@@ -33,36 +33,78 @@ Resultaterne for algoritmen på evalueringsdatasættet er:
 | **Angreb iflg. A&ttack**      | 830  | 2218 |
 
 Og for testdatasættet:
- - Macro averace F1 score: RONNIE RONNIE RONNIE
- - Prevision: RONNIE RONNIE RONNIE  
- - Recall: RONNIE RONNIE RONNIE  
+ - Macro averace F1 score: 0.8349
+ - Prevision: 0.8431  
+ - Recall: 0.8275 
  - Confusion matrix:
 
 |         | Annoteret ikke-angreb | Annoteret angreb  |
 | ------------- |:-------------:| :-----:|
-| **Ikke-angreb iflg. A&ttack** | RONNIE RONNIE RONNIE | RONNIE RONNIE RONNIE |
-| **Angreb iflg. A&ttack**      | RONNIE RONNIE RONNIE  | RONNIE RONNIE RONNIE |
+| **Ikke-angreb iflg. A&ttack** | 4823 | 335 |
+| **Angreb iflg. A&ttack**      | 433  | 1113 |
 
 
 ## Brug af algoritmen
 
-```python
-import torch
+For at gør brug af algortimen skal der først installeres *transformers* og *pytorch*:
+```bash
+pip install torch
+pip install transformers
 
-from transformers import AutoTokenizer
-from model_def import ElectraClassifier
-model_checkpoint = 'Maltehb/-l-ctra-danish-electra-small-cased'
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
-
-model = ElectraClassifier(model_checkpoint,2)
-model_path = 'pytorch_model.bin'
-model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
-
-model.eval()
 ```
 
-## Tak til:
+Derefter kan modellen bruges tests på enkelte tekststykker ved at køre følgende:
 
+```python
+import torch
+from transformers import AutoTokenizer
+from model_def import ElectraClassifier
+
+text = "Du er et stort fjols"
+
+def load_model():
+    model_checkpoint = 'Maltehb/-l-ctra-danish-electra-small-cased'
+    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
+
+    model = ElectraClassifier(model_checkpoint,2)
+    model_path = 'pytorch_model.bin'
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+
+    model.eval()
+
+    return(model, tokenizer)
+
+def make_prediction(text):
+    tokenized_text = tokenizer(
+        text,
+        truncation=True,
+        max_length=512,
+        padding='max_length',
+        return_attention_mask=True,
+        return_token_type_ids=False,
+        return_tensors='pt',
+    )
+    input_ids = tokenized_text['input_ids']
+    attention_masks = tokenized_text['attention_mask']
+    logits = model(input_ids,attention_masks)
+    
+    logit,preds = torch.max(logits, dim=1)
+    return(int(preds))
+
+model, tokenizer = load_model()
+text_clf = make_prediction(text)
+```
+Hvor *make_predition* returnere klasse 0 hvis teksten vurderes til ikke at være et sprogligt angreb og klassen 1 hvis teksten vurderes at være et sprogligt angreb. 
+
+Funktionerne i *data_prep.py* kan bruges til at lave batch inferens. 
+
+## Kontakt
+
+Spørgsmål til indeholder af dette repository kan sendes til:
+ - Ronnie Taarnborg (ronnie@ogtal.dk)
+ - Edin Lind Ikanovic (edin@ogtal.dk)
+
+## Tak til:
 
 **Projektets annotører**
  - Ida Marcher Manøe
@@ -87,9 +129,3 @@ model.eval()
 **Danske Open-source teknologi vi står på skuldrene af**
  - The Danish Gigaword Project: Leon Derczynski, Manuel R. Ciosici
  - Ælectra: Malte Højmark-Bertelsen
-
-## Kontakt
-
-Spørgsmål til indeholder af dette repository kan sendes til:
-Ronnie Taarnborg (ronnie@ogtal.dk)
-Edin Lind Ikanovic (edin@ogtal.dk)
