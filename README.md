@@ -63,7 +63,7 @@ from model_def import ElectraClassifier
 text = "Du er et stort fjols"
 
 def load_model():
-    model_checkpoint = 'Maltehb/-l-ctra-danish-electra-small-cased'
+    model_checkpoint = 'Maltehb/aelaectra-danish-electra-small-cased'
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
 
     model = ElectraClassifier(model_checkpoint,2)
