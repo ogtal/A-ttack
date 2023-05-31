@@ -23,7 +23,7 @@ Den bedste model bruger en [dansk electra model](https://huggingface.co/Maltehb/
 
 Resultaterne for algoritmen på evalueringsdatasættet er: 
  - Macro averace F1 score: 0.8341
- - Prevision: 0.8389  
+ - Precision: 0.8389  
  - Recall: 0.8295  
  - Confusion matrix:
 
@@ -34,7 +34,7 @@ Resultaterne for algoritmen på evalueringsdatasættet er:
 
 Og for testdatasættet:
  - Macro averace F1 score: 0.8349
- - Prevision: 0.8431  
+ - Precision: 0.8431  
  - Recall: 0.8275 
  - Confusion matrix:
 
